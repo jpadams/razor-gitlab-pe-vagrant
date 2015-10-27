@@ -2,18 +2,16 @@
 roles:
   master_of_masters:
     private_networks:
-      - ip: '0.0.0.0'
-        auto_network: true
+      - {ip: '0.0.0.0', auto_network: true}
     provider:
       type: virtualbox
       customize:
         - [modifyvm, !ruby/sym id, '--memory', 4096]
         - [modifyvm, !ruby/sym id, '--ioapic', 'on']
         - [modifyvm, !ruby/sym id, '--cpus', '4']
-    synced_folders:
-      - host_path:  '.files'
-        guest_path: '/var/seteam-files'
     provisioners:
+      - type: shell
+        inline: 'mkdir -p /etc/puppetlabs/puppet; cp /vagrant/trusted_facts/mom_csr_attributes.yaml /etc/puppetlabs/puppet/csr_attributes.yaml'
       - type: shell
         inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"
       - type: hosts
@@ -23,13 +21,15 @@ roles:
         autosign:
           - '*.vm'
           - '*.demo'
-#      - type: shell
-#        path: "scripts/bootstrap.sh"
+      - type: shell
+        inline: "r10k deploy environment -pv"
 
   compile_master:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
+      - type: shell
+        inline: 'mkdir -p /etc/puppetlabs/puppet; cp /vagrant/trusted_facts/compile_csr_attributes.yaml /etc/puppetlabs/puppet/csr_attributes.yaml'
       - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
       - {type: hosts}
       - type: shell
