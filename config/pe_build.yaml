@@ -1,8 +1,7 @@
 ---
 pe_build:
-  version_file:  "http://getpe.delivery.puppetlabs.net/latest/2015.3"
-  download_root: "http://enterprise.delivery.puppetlabs.net/2015.3/ci-ready/"
-  filename: "puppet-enterprise-:version-el-6-x86_64.tar"
+  version:  "2015.2.2"
+  download_root: "http://s3.amazonaws.com/pe-builds/released/:version"
 
 # Example of using pe_build to deploy a published PE release
 #     ---
