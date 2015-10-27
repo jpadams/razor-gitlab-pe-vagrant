@@ -1,0 +1,50 @@
+ # Hashicorp boxes are used by default as per vms.yaml, but there are options for other boxes in the boxes.yaml file.
+---
+vms:
+  - name: "mom.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "master_of_masters" ]
+
+  - name: "compile1.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "compile_master" ]
+
+  - name: "compile2.pdx.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "compile_master" ]
+
+  - name: "gitlab.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "heavy_posix_agent" ]
+
+  - name: "razor.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "posix_agent" ]
+
+  - name: "puppet.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "posix_agent" ]
+
+  - name: "centos7a.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "posix_agent" ]
+
+  - name: "centos7b.puppetlabs.demo"
+    box: "puppetlabs/centos-7.0-64-nocm"
+    roles: [ "posix_agent" ]
+
+## Uncomment this VM to create a GUI system which will PXE boot to the
+## host only network.  This is to be used in conjunction with
+## chrismatteson/razordemo.
+
+  - name: "razorbase"
+    box: "puppetlabs-tse/razorbase"
+    roles: [ "posix_noagent" ]
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--nic1', 'none']
+        - [modifyvm, !ruby/sym id, '--nic2', 'hostonly']
+        - [modifyvm, !ruby/sym id, '--boot4', 'net']
+        - [startvm, !ruby/sym id, '--type', 'gui']
+    autostart: false
