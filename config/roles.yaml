@@ -23,6 +23,10 @@ roles:
           - '*.demo'
       - type: shell
         inline: "r10k deploy environment -pv"
+      - type: shell
+        inline: "puppet agent -t"
+      - type: shell
+        inline: "/vagrant/scripts/refresh_classes.sh"
 
   compile_master:
     private_networks:
