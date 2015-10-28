@@ -34,7 +34,7 @@ roles:
       - {type: hosts}
       - type: shell
         inline: |-
-                curl -sk https://mom.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet
+                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet
 
   windows_agent:
     guest: windows
@@ -70,7 +70,7 @@ roles:
         inline: |-
           curl -sk https://puppet.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
 
-  heavy_posix_agent:
+  gitlab_server:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provider:
@@ -83,7 +83,7 @@ roles:
       - {type: hosts}
       - type: shell
         inline: |-
-          curl -sk https://mom.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
+          curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
 
   darwin_agent:
     private_networks:

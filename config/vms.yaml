@@ -15,7 +15,7 @@ vms:
 
   - name: "gitlab.puppetlabs.demo"
     box: "puppetlabs/centos-7.0-64-nocm"
-    roles: [ "heavy_posix_agent" ]
+    roles: [ "gitlab_server" ]
 
   - name: "razor.puppetlabs.demo"
     box: "puppetlabs/centos-7.0-64-nocm"
