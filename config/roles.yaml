@@ -28,12 +28,41 @@ roles:
 #      - type: shell
 #        inline: "/vagrant/scripts/refresh_classes.sh"
 
+  gitlab_server:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provider:
+      type: virtualbox
+      customize:
+        - [modifyvm, !ruby/sym id, '--cpus', '2']
+        - [modifyvm, !ruby/sym id, '--memory', 2048]
+    provisioners:
+      - type: shell
+        inline: 'mkdir -p /etc/puppetlabs/puppet; cp /vagrant/trusted_facts/gitlab_csr_attributes.yaml /etc/puppetlabs/puppet/csr_attributes.yaml'
+      - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
+      - {type: hosts}
+      - type: shell
+        inline: |-
+          curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
+
   compile_master:
     private_networks:
       - {ip: '0.0.0.0', auto_network: true}
     provisioners:
       - type: shell
         inline: 'mkdir -p /etc/puppetlabs/puppet; cp /vagrant/trusted_facts/compile_csr_attributes.yaml /etc/puppetlabs/puppet/csr_attributes.yaml'
+      - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
+      - {type: hosts}
+      - type: shell
+        inline: |-
+                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet
+
+  haproxy_load_balancer:
+    private_networks:
+      - {ip: '0.0.0.0', auto_network: true}
+    provisioners:
+      - type: shell
+        inline: 'mkdir -p /etc/puppetlabs/puppet; cp /vagrant/trusted_facts/haproxy_csr_attributes.yaml /etc/puppetlabs/puppet/csr_attributes.yaml'
       - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
       - {type: hosts}
       - type: shell
@@ -73,21 +102,6 @@ roles:
       - type: shell
         inline: |-
           curl -sk https://puppet.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
-
-  gitlab_server:
-    private_networks:
-      - {ip: '0.0.0.0', auto_network: true}
-    provider:
-      type: virtualbox
-      customize:
-        - [modifyvm, !ruby/sym id, '--cpus', '2']
-        - [modifyvm, !ruby/sym id, '--memory', 2048]
-    provisioners:
-      - {type: shell, inline: "echo 'nameserver 8.8.8.8' > /etc/resolv.conf"}
-      - {type: hosts}
-      - type: shell
-        inline: |-
-          curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
 
   darwin_agent:
     private_networks:

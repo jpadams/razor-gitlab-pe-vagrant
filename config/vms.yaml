@@ -23,7 +23,7 @@ vms:
 
   - name: "puppet.puppetlabs.demo"
     box: "puppetlabs/centos-7.0-64-nocm"
-    roles: [ "posix_agent" ]
+    roles: [ "haproxy_load_balancer" ]
 
   - name: "centos7a.puppetlabs.demo"
     box: "puppetlabs/centos-7.0-64-nocm"
