@@ -23,10 +23,12 @@ roles:
           - '*.demo'
       - type: shell
         inline: "r10k deploy environment -pv"
-#      - type: shell
-#        inline: "/opt/puppetlabs/bin/puppet agent -t"
-#      - type: shell
-#        inline: "/vagrant/scripts/refresh_classes.sh"
+      - type: shell
+        inline: "sleep 90"
+      - type: shell
+        inline: "/opt/puppetlabs/bin/puppet agent -t"
+      - type: shell
+        inline: "/vagrant/scripts/refresh_classes.sh"
 
   gitlab_server:
     private_networks:
@@ -55,7 +57,7 @@ roles:
       - {type: hosts}
       - type: shell
         inline: |-
-                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet
+                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet.puppetlabs.demo
 
   haproxy_load_balancer:
     private_networks:
@@ -67,7 +69,7 @@ roles:
       - {type: hosts}
       - type: shell
         inline: |-
-                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet
+                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
 
   windows_agent:
     guest: windows
