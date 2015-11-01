@@ -45,7 +45,7 @@ roles:
       - {type: hosts}
       - type: shell
         inline: |-
-          curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
+                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:server=master.puppetlabs.demo
 
   compile_master:
     private_networks:
@@ -57,7 +57,7 @@ roles:
       - {type: hosts}
       - type: shell
         inline: |-
-                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet.puppetlabs.demo
+                curl -sk https://master.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:dns_alt_names=puppet.puppetlabs.demo main:server=master.puppetlabs.demo
 
   haproxy_load_balancer:
     private_networks:
@@ -103,7 +103,7 @@ roles:
       - {type: hosts}
       - type: shell
         inline: |-
-          curl -sk https://puppet.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash
+                curl -sk https://puppet.puppetlabs.demo:8140/packages/current/install.bash | /bin/bash -s main:server=puppet.puppetlabs.demo
 
   darwin_agent:
     private_networks:
