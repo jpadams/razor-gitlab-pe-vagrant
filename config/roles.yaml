@@ -22,13 +22,13 @@ roles:
           - '*.vm'
           - '*.demo'
       - type: shell
-        inline: "r10k deploy environment -pv"
+        inline: "echo '>>>running r10k...'; r10k deploy environment -pv"
       - type: shell
-        inline: "sleep 90"
+        inline: "echo '>>>sleeping for 120 seconds for services to come up...'; sleep 120"
       - type: shell
-        inline: "/opt/puppetlabs/bin/puppet agent -t"
+        inline: "echo '>>>running puppet agent...'; /opt/puppetlabs/bin/puppet agent -t"
       - type: shell
-        inline: "/vagrant/scripts/refresh_classes.sh"
+        inline: "echo '>>>refeshing classes list...'; /bin/bash /vagrant/scripts/refresh_classes.sh"
 
   gitlab_server:
     private_networks:
